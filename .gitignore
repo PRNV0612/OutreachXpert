@@ -3,3 +3,4 @@ env
 vectorstore
 .ipynb_checkpoints
 chroma_trial.ipynb
+directmail.ipynb
