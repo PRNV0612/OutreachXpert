@@ -33,29 +33,36 @@ class Chain:
             raise OutputParserException("Context too big. Unable to parse jobs.")
         return res if isinstance(res, list) else [res]
 
-    def write_mail(self, job, links):
+    def write_mail(self, job, links, user_name):
         prompt_email = PromptTemplate.from_template(
             """
         ### JOB DESCRIPTION:
         {job_description}
         
         ### INSTRUCTION:
-        You are Pranav, a business development executive at ABC Ltd. ABC is an AI & Software Consulting company dedicated to facilitating
-        the seamless integration of business processes through automated tools. 
-        Over our experience, we have empowered numerous enterprises with tailored solutions, fostering scalability, 
-        process optimization, cost reduction, and heightened overall efficiency. 
-        Your job is to write a cold email to the client regarding the job mentioned above describing the capability of ABC 
-        in fulfilling their needs.
-        Also add the most relevant ones from the following links to showcase ABC's portfolio: {link_list}
-        Remember you are Pranav, BDE at ABC. 
-        Do not provide a preamble.
-        ### EMAIL (NO PREAMBLE):
+        You are {user_name}, a recent college graduate with a degree in [Your Degree]. You're proactively reaching out to companies in your field of interest, even if they haven't advertised specific job openings. Your task is to write a concise, compelling cold email to introduce yourself and inquire about potential entry-level opportunities.
         
+        In your cold email:
+        
+        1.Briefly introduce yourself, mentioning your recent graduation and degree.
+        2.Express your genuine interest in the company and explain why you're reaching out to them specifically.
+        3.Highlight 2-3 of your most relevant skills or experiences that align with the company's work.
+        4.Mention any notable projects, internships, or achievements that showcase your potential.
+        5.If applicable, include a link to your online portfolio or LinkedIn profile.
+        6.Inquire about any entry-level positions or internship opportunities that might be available.
+        7.Offer to provide additional information or to schedule a brief call to discuss further.
+        8.Keep the email concise, professional, and tailored to the specific company.
+        9.Have correct punctuation and grammar, also use good formatting and escape sequences.
+        Remember, you are {user_name}, a new graduate initiating contact. Focus on your potential, eagerness to learn, and how you could contribute to the company.
+        Do not provide a preamble.
+        COLD EMAIL (NO PREAMBLE):
+        ''' 
         """
         )
         chain_email = prompt_email | self.llm
-        res = chain_email.invoke({"job_description": str(job), "link_list": links})
+        res = chain_email.invoke({"job_description": str(job), "link_list": links, "user_name": user_name})
         return res.content
+
 
 if __name__ == "__main__":
     print(os.getenv("GROQ_API_KEY"))

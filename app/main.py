@@ -6,9 +6,13 @@ from portfolio import Portfolio
 from utils import clean_text
 
 
-def create_streamlit_app(llm, portfolio, clean_text):
-    st.title("📧 Cold Mail Generator")
+def create_streamlit_app(llm, portfolio, clean_text): 
+    st.title("📧 OutreachXpert")
+    st.write("A tool that helps fresh graduates craft personalized, professional cold emails to potential employers and networking contacts.")
+    
+    # User inputs
     url_input = st.text_input("Enter a URL:", value="https://www.amazon.jobs/en/jobs/2802318/software-dev-engineer-iii-aws-payments")
+    name_input = st.text_input("Enter Your Full Name: ")
     submit_button = st.button("Submit")
 
     if submit_button:
@@ -17,13 +21,18 @@ def create_streamlit_app(llm, portfolio, clean_text):
             data = clean_text(loader.load().pop().page_content)
             portfolio.load_portfolio()
             jobs = llm.extract_jobs(data)
+            
             for job in jobs:
                 skills = job.get('skills', [])
                 links = portfolio.query_links(skills)
-                email = llm.write_mail(job, links)
+                
+                # Pass the user's name to the email generation function
+                email = llm.write_mail(job, links, name_input)
                 st.code(email, language='markdown')
+        
         except Exception as e:
             st.error(f"An Error Occurred: {e}")
+
 
 
 if __name__ == "__main__":
