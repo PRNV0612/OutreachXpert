@@ -54,24 +54,23 @@
 ---
 
 ## 🧰 Installation
-
-1. **Clone the repository**
+### Clone the repository
    ```bash
-   git clone https://github.com/your-username/outreachxpert.git
-   cd outreachxpert
+     git clone https://github.com/your-username/outreachxpert.git
+     cd outreachxpert
    ```
-2. **Install the dependencies**
+### Install the dependencies
   ```bash
-  pip install -r requirements.txt
+    pip install -r requirements.txt
   ```
-3. ***Set your Groq API key***
-  Create a .env file or set the environment variable:
+### Set your Groq API key
+  #### Create a .env file or set the environment variable:
+   ```plaintext
+     GROQ_API_KEY=your_groq_api_key
+  ```
+### Run the app
    ```bash
-   GROQ_API_KEY=your_groq_api_key
-  
-4. ***Run the app***
-   ```bash
-   streamlit run main.py
-```
+     streamlit run main.py
+   ```
 
 
